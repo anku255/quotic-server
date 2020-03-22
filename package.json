@@ -1,0 +1,48 @@
+{
+  "name": "node-typescript-boilerplate",
+  "version": "0.0.0",
+  "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
+  "engines": {
+    "node": ">= 12.13"
+  },
+  "devDependencies": {
+    "@types/jest": "~25.1.2",
+    "@types/mongodb": "^3.3.16",
+    "@types/mongoose": "^5.7.1",
+    "@types/node": "~12.12.27",
+    "@typescript-eslint/eslint-plugin": "~2.19.2",
+    "@typescript-eslint/parser": "~2.19.2",
+    "dotenv": "^8.2.0",
+    "eslint": "~6.8.0",
+    "eslint-config-prettier": "~6.10.0",
+    "eslint-plugin-jest": "~23.7.0",
+    "jest": "~25.1.0",
+    "nodemon": "^2.0.2",
+    "prettier": "~1.19.1",
+    "rimraf": "~3.0.2",
+    "ts-jest": "~25.2.0",
+    "ts-node": "^8.6.2",
+    "tsutils": "~3.17.0",
+    "typescript": "~3.7.5"
+  },
+  "scripts": {
+    "clean": "rimraf coverage build tmp",
+    "build": "tsc -p tsconfig.release.json",
+    "build:watch": "tsc -w -p tsconfig.release.json",
+    "start": "node build/src/app.js",
+    "start:qa": "nodemon -r dotenv/config src/app.ts",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "author": "Jakub Synowiec <github@jakubsynowiec.info>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@awaitjs/express": "^0.4.0",
+    "cors": "^2.8.5",
+    "fastify": "^2.13.0",
+    "mongoose": "^5.9.1",
+    "ramda": "^0.27.0",
+    "tslib": "~1.10.0"
+  }
+}

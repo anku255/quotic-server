@@ -1,23 +1,31 @@
 import fastify from 'fastify'
+import { ApolloServer } from 'apollo-server-fastify';
 import cors from 'cors'
-import { Server, IncomingMessage, ServerResponse } from 'http'
+import { IncomingMessage, ServerResponse } from 'http'
+import graphqlSchema from './graphql/schema'
+import './config/database';
 
-const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify()
+const app = fastify({ logger: true })
 
-const opts = {
-  schema: {
-    response: {
-      200: {
-        type: 'object',
-        properties: {
-          hello: {
-            type: 'string'
-          }
-        }
-      }
-    }
-  }
-}
+const gqlServer = new ApolloServer({
+  schema: graphqlSchema
+});
+
+
+// const opts = {
+//   schema: {
+//     response: {
+//       200: {
+//         type: 'object',
+//         properties: {
+//           hello: {
+//             type: 'string'
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
 
 function getHelloHandler(_: fastify.FastifyRequest<IncomingMessage>,
   reply: fastify.FastifyReply<ServerResponse>): void {
@@ -25,10 +33,23 @@ function getHelloHandler(_: fastify.FastifyRequest<IncomingMessage>,
   reply.send({ hello: 'world' })
 }
 
-server.use(cors())
-server.get('/', getHelloHandler)
+app.use(cors());
+app.get('/', getHelloHandler);
 
-server.listen(process.env.PORT, err => {
-  if (err) throw err
-  console.log(`server listening on ${process.env.PORT}`)
-})
+
+(async (): Promise<void> => {
+  try {
+    await app.register(gqlServer.createHandler()).listen(process.env.PORT)
+    app.log.info(`server listening on ${process.env.PORT}`);
+  } catch (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+})();
+
+
+
+// app.listen(process.env.PORT, err => {
+//   if (err) throw err
+//   console.log(`server listening on ${process.env.PORT}`)
+// })

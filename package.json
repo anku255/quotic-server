@@ -39,8 +39,12 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@awaitjs/express": "^0.4.0",
+    "apollo-server-fastify": "^2.11.0",
     "cors": "^2.8.5",
     "fastify": "^2.13.0",
+    "graphql": "^14.6.0",
+    "graphql-compose": "^7.14.0",
+    "graphql-compose-mongoose": "^7.3.5",
     "mongoose": "^5.9.1",
     "ramda": "^0.27.0",
     "tslib": "~1.10.0"

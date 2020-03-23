@@ -1,19 +1,28 @@
+import { schemaComposer } from 'graphql-compose';
 import { composeWithMongoose } from 'graphql-compose-mongoose';
 
 import User from '../../models/User';
+import { me, signIn, signUp } from '../../controllers/auth'
 
 // CONVERT MONGOOSE MODEL TO GraphQL PIECES
 const customizationOptions = {}; // left it empty for simplicity, described below
 const UserTC = composeWithMongoose(User, customizationOptions);
 
-// Add needed CRUD User operations to the GraphQL Schema
-// via graphql-compose it will be much much easier, with less typing
+// Remove Fields
+UserTC.removeField('password')
+
+// Add Resolvers
+UserTC.addResolver(signIn);
+UserTC.addResolver(signUp);
+UserTC.addResolver(me);
+
 const UserQueryFields = {
   userById: UserTC.getResolver('findById'),
   userByIds: UserTC.getResolver('findByIds'),
   userOne: UserTC.getResolver('findOne'),
   userMany: UserTC.getResolver('findMany'),
   userCount: UserTC.getResolver('count'),
+  me: UserTC.getResolver('me'),
 };
 
 const UserMutationFields = {
@@ -22,7 +31,14 @@ const UserMutationFields = {
   userUpdateOne: UserTC.getResolver('updateOne'),
   userRemoveById: UserTC.getResolver('removeById'),
   userRemoveOne: UserTC.getResolver('removeOne'),
+  signIn: UserTC.getResolver('signIn'),
+  signUp: UserTC.getResolver('signUp'),
 }
+
+schemaComposer.createObjectTC({
+  name: 'AccessToken',
+  fields: { accessToken: 'String!' }
+})
 
 
 export { UserTC, UserQueryFields, UserMutationFields }

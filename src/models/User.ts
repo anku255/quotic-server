@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 
 const userSchema = new Schema(
@@ -18,6 +19,10 @@ const userSchema = new Schema(
   },
   { timestamps: true },
 );
+
+userSchema.methods.comparePassword = function (password: string): boolean {
+  return bcrypt.compareSync(password, this.password)
+}
 
 export default mongoose.model('User', userSchema);
 

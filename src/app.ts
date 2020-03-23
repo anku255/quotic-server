@@ -3,12 +3,16 @@ import { ApolloServer } from 'apollo-server-fastify';
 import cors from 'cors'
 import { IncomingMessage, ServerResponse } from 'http'
 import graphqlSchema from './graphql/schema'
+import authMiddleware from './middlewares/authentication'
 import './config/database';
 
 const app = fastify();
 
 const gqlServer = new ApolloServer({
-  schema: graphqlSchema
+  schema: graphqlSchema,
+  context: (ctx) => ({
+    user: ctx.req.user
+  })
 });
 
 
@@ -34,6 +38,7 @@ function getHelloHandler(_: fastify.FastifyRequest<IncomingMessage>,
 }
 
 app.use(cors());
+app.use(authMiddleware);
 app.get('/', getHelloHandler);
 
 

@@ -4,8 +4,7 @@ import mongoose, { Schema } from 'mongoose';
 const quoteSchema = new Schema(
   {
     markup: {
-      type: String,
-      required: true,
+      type: String
     },
     raw: {
       type: String, required: true,

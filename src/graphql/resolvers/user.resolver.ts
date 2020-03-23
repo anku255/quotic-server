@@ -1,5 +1,4 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose';
-import { schemaComposer } from 'graphql-compose';
 
 import User from '../../models/User';
 

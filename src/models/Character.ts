@@ -11,6 +11,7 @@ const characterSchema = new Schema(
       type: String,
       required: true,
     },
+    imdbLink: String,
     age: Number,
     coverPicture: String,
     shows: [{ type: mongoose.Types.ObjectId, ref: 'Show' }]
@@ -18,5 +19,5 @@ const characterSchema = new Schema(
   { timestamps: true },
 );
 
-export default mongoose.model('User', characterSchema);
+export default mongoose.model('Character', characterSchema);
 

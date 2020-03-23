@@ -15,12 +15,14 @@ const showSchema = new Schema(
       type: [String],
       required: true,
     },
+    type: {
+      type: String,
+      enum: ['SERIES', 'MOVIE'],
+      required: true
+    },
     year: Number,
     seasons: Number,
-    characters: {
-      type: Schema.Types.ObjectId,
-      ref: 'Character'
-    },
+    characters: [{ type: Schema.Types.ObjectId, ref: 'Character' }],
     coverPicture: String,
     imdbLink: String,
     rating: Number,

@@ -5,7 +5,7 @@ import { IncomingMessage, ServerResponse } from 'http'
 import graphqlSchema from './graphql/schema'
 import './config/database';
 
-const app = fastify({ logger: true })
+const app = fastify();
 
 const gqlServer = new ApolloServer({
   schema: graphqlSchema
@@ -39,7 +39,7 @@ app.get('/', getHelloHandler);
 
 (async (): Promise<void> => {
   try {
-    await app.register(gqlServer.createHandler()).listen(process.env.PORT)
+    await app.register(gqlServer.createHandler()).listen(process.env.PORT);
     app.log.info(`server listening on ${process.env.PORT}`);
   } catch (err) {
     app.log.error(err);

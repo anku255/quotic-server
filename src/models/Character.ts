@@ -11,9 +11,18 @@ const characterSchema = new Schema(
       type: String,
       required: true,
     },
-    imdbLink: String,
-    age: Number,
-    coverPicture: String,
+    imdbLink: {
+      type: String,
+      required: true,
+    },
+    dob: {
+      type: Date,
+      required: true,
+    },
+    coverPicture: {
+      type: String,
+      required: true,
+    },
     shows: [{ type: mongoose.Types.ObjectId, ref: 'Show' }]
   },
   { timestamps: true },

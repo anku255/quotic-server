@@ -2,6 +2,7 @@ import { composeWithMongoose } from 'graphql-compose-mongoose';
 
 import Quote from '../../models/Quote';
 import { ShowTC } from './show.resolver'
+import { CharacterTC } from './character.resolver';
 
 const customizationOptions = {};
 const QuoteTC = composeWithMongoose(Quote, customizationOptions);
@@ -14,6 +15,22 @@ QuoteTC.addRelation('show', {
   projection: { show: true }
 })
 
+QuoteTC.addRelation('characters', {
+  resolver: () => CharacterTC.getResolver('findByIds'),
+  prepareArgs: {
+    _ids: (source: { characters: [string] }): [string] => source.characters
+  },
+  projection: { characters: true }
+})
+
+QuoteTC.addRelation('mainCharacter', {
+  resolver: () => CharacterTC.getResolver('findById'),
+  prepareArgs: {
+    _id: (source: { mainCharacter: string }): string => source.mainCharacter
+  },
+  projection: { mainCharacter: true }
+})
+
 const QuoteQueryFields = {
   quoteById: QuoteTC.getResolver('findById'),
   quoteByIds: QuoteTC.getResolver('findByIds'),
@@ -24,6 +41,7 @@ const QuoteQueryFields = {
 
 const QuoteMutationFields = {
   quoteCreateOne: QuoteTC.getResolver('createOne'),
+  quoteCreateMany: QuoteTC.getResolver('createMany'),
   quoteUpdateById: QuoteTC.getResolver('updateById'),
   quoteUpdateOne: QuoteTC.getResolver('updateOne'),
   quoteRemoveById: QuoteTC.getResolver('removeById'),

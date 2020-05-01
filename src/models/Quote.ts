@@ -1,6 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
 
-
 const quoteSchema = new Schema(
   {
     markup: {
@@ -11,10 +10,20 @@ const quoteSchema = new Schema(
     },
     show: {
       type: Schema.Types.ObjectId,
-      ref: 'Show'
+      ref: 'Show',
+      required: true,
     },
-    season: Number,
-    episode: Number,
+    characters: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Character',
+    }],
+    mainCharacter: {
+      type: Schema.Types.ObjectId,
+      ref: 'Character',
+      required: true,
+    },
+    season: { type: Number, required: true, },
+    episode: { type: Number, required: true, },
     timestamp: String,
     tags: [String],
     audio: String

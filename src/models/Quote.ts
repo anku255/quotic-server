@@ -20,7 +20,6 @@ const quoteSchema = new Schema(
     mainCharacter: {
       type: Schema.Types.ObjectId,
       ref: 'Character',
-      required: true,
     },
     season: { type: Number, required: true, },
     episode: { type: Number, required: true, },

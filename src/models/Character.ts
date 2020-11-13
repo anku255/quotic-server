@@ -17,13 +17,15 @@ const characterSchema = new Schema(
     },
     dob: {
       type: Date,
-      required: true,
     },
     coverPicture: {
       type: String,
       required: true,
     },
-    shows: [{ type: mongoose.Types.ObjectId, ref: 'Show' }]
+    shows: [{ type: mongoose.Types.ObjectId, ref: 'Show' }],
+    bioMarkup: {
+      type: String
+    }
   },
   { timestamps: true },
 );

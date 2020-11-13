@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/User'
+import User from '../models/user.model'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const authentication = async (req, _, next): Promise<any> => {

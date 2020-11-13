@@ -1,6 +1,6 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose';
 
-import Quote from '../../models/Quote';
+import Quote from '../../models/quote.model';
 import { ShowTC } from './show.resolver'
 import { CharacterTC } from './character.resolver';
 

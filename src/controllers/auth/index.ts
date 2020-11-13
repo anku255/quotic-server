@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../../models/User';
+import User from '../../models/user.model';
 import { UserInterface } from '../../@types/index'
 
 export const me = {

@@ -1,6 +1,6 @@
-import Quote from '../models/Quote';
-import Show from '../models/Show';
-import Character from '../models/Character';
+import Quote from '../models/quote.model';
+import Show from '../models/show.model';
+import Character from '../models/character.model';
 
 interface SearchResult {
   id: number;

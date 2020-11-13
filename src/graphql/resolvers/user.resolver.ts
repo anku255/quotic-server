@@ -1,7 +1,7 @@
 import { schemaComposer } from 'graphql-compose';
 import { composeWithMongoose } from 'graphql-compose-mongoose';
 
-import User from '../../models/User';
+import User from '../../models/user.model';
 import { me, signIn, signUp } from '../../controllers/auth'
 
 // CONVERT MONGOOSE MODEL TO GraphQL PIECES

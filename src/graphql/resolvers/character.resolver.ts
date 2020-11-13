@@ -1,6 +1,6 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose';
 
-import Character from '../../models/Character';
+import Character from '../../models/character.model';
 import { ShowTC } from './show.resolver'
 
 const customizationOptions = {};

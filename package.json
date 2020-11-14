@@ -29,7 +29,7 @@
     "clean": "rimraf coverage build tmp",
     "build": "tsc -p tsconfig.release.json",
     "build:watch": "tsc -w -p tsconfig.release.json",
-    "start": "node build/src/app.js",
+    "start": "node -r dotenv/config build/src/app.js",
     "start:qa": "nodemon -r dotenv/config src/app.ts",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "jest --coverage",

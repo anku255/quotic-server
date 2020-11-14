@@ -1,6 +1,17 @@
 import mongoose, { Schema } from 'mongoose';
 
 
+const episodeSchema = new Schema({
+  season: {
+    type: Number,
+    required: true,
+  },
+  episodes: {
+    type: Number,
+    required: 'true'
+  }
+}, {_id: false})
+
 const showSchema = new Schema(
   {
     name: {
@@ -22,6 +33,7 @@ const showSchema = new Schema(
     },
     year: Number,
     seasons: Number,
+    episodes: [episodeSchema],
     characters: [{ type: Schema.Types.ObjectId, ref: 'Character' }],
     coverPicture: String,
     imdbLink: String,

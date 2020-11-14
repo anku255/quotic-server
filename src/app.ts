@@ -44,7 +44,7 @@ app.get('/', getHelloHandler);
 
 (async (): Promise<void> => {
   try {
-    await app.register(gqlServer.createHandler()).listen(process.env.PORT);
+    await app.register(gqlServer.createHandler()).listen(parseInt(process.env.PORT, 10), '0.0.0.0');
     console.log(`server listening on ${process.env.PORT}`)
   } catch (err) {
     app.log.error(err);

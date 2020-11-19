@@ -13,7 +13,8 @@ const gqlServer = new ApolloServer({
   context: (ctx) => ({
     user: ctx.req.user
   }),
-  playground: true
+  playground: true,
+  introspection: true,
 });
 
 

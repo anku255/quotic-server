@@ -12,7 +12,8 @@ const gqlServer = new ApolloServer({
   schema: graphqlSchema,
   context: (ctx) => ({
     user: ctx.req.user
-  })
+  }),
+  playground: true
 });
 
 

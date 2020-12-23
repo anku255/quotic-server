@@ -35,3 +35,30 @@ export const searchByQuery = {
     return formatSearchResults(quotes, shows, characters);
   }
 }
+
+export const searchCharacters = {
+  name: 'searchCharacters',
+  type: '[Character]!',
+  args: {
+    characterName: 'String',
+    realName: 'String',
+    limit: 'Int'
+  },
+  resolve: async ({ args: { characterName, realName, limit} }): Promise<Array<unknown>> => {
+    const characters = await Character.find({ $or: [{characterName: new RegExp(characterName, 'i'), realName: new RegExp(realName, 'i') }] }).limit(limit ?? 10).lean();
+    return characters;
+  }
+}
+
+export const searchShows = {
+  name: 'searchShows',
+  type: '[Show]!',
+  args: {
+    name: 'String',
+    limit: 'Int'
+  },
+  resolve: async ({ args: { name, limit} }): Promise<Array<unknown>> => {
+    const shows = await Show.find({name: new RegExp(name, 'i') }).limit(limit ?? 10).lean();
+    return shows;
+  }
+}

@@ -1,5 +1,5 @@
 import { schemaComposer } from 'graphql-compose';
-import { searchByQuery } from '../../controllers/search.controller';
+import { searchByQuery, searchCharacters, searchShows } from '../../controllers/search.controller';
 
 const SearchTC = schemaComposer.createObjectTC(`
   type SearchResult {
@@ -14,9 +14,13 @@ const SearchTC = schemaComposer.createObjectTC(`
 `);
 
 SearchTC.addResolver(searchByQuery);
+SearchTC.addResolver(searchCharacters);
+SearchTC.addResolver(searchShows);
 
 const SearchQueryFields = {
   searchByQuery: SearchTC.getResolver('searchByQuery'),
+  searchCharacters: SearchTC.getResolver('searchCharacters'),
+  searchShows: SearchTC.getResolver('searchShows')
 }
 
 export { SearchTC, SearchQueryFields }

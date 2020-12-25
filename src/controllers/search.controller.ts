@@ -16,7 +16,7 @@ const formatSearchResults = (quotes, shows, characters) => {
   const formattedQuotes = quotes.map(quote => ({type: 'quote', id: quote._id, quote: quote.markup, showName: quote.show.name, imageUrl: "https://i.imgur.com/kv3nT2a.png" }) );
   const formattedShows = shows.map(show => ({type: 'show', id: show._id, showName: show.name, showYear: show.year, imageUrl: show.coverPicture}));
   const formattedCharacters= characters.map(character => ({type: 'character', id: character._id, characterName: character.characterName, imageUrl: character.coverPicture, showName: character.shows?.[0]?.name, showYear: character.shows?.[0]?.year }));
-  return formattedQuotes.concat(formattedShows, formattedCharacters);
+  return formattedShows.concat(formattedCharacters, formattedQuotes);
 }
 
 export const searchByQuery = {
@@ -26,7 +26,7 @@ export const searchByQuery = {
     query: 'String!',
   },
   resolve: async ({ args: { query } }): Promise<Array<SearchResult>> => {
-    const quoteSearchPromise = Quote.find({ raw: new RegExp(query, 'i') }).populate('show');
+    const quoteSearchPromise = Quote.find({ raw: new RegExp(query, 'i') }).limit(5).populate('show');
     const showSearchPromise = Show.find({ name: new RegExp(query, 'i') });
     const characterSearchPromise = Character.find({ $or: [{ characterName: new RegExp(query, 'i')}, {realName: new RegExp(query, 'i') }] }).populate('shows');
 

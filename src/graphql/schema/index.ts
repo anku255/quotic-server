@@ -4,6 +4,7 @@ import { QuoteQueryFields, QuoteMutationFields } from '../resolvers/quote.resolv
 import { ShowQueryFields, ShowMutationFields } from '../resolvers/show.resolver';
 import { CharacterQueryFields, CharacterMutationFields } from '../resolvers/character.resolver';
 import { SearchQueryFields } from '../resolvers/search.resolver';
+import { HomeQueryFields } from '../resolvers/home.resolver';
 
 // Queries
 schemaComposer.Query.addFields({
@@ -11,7 +12,8 @@ schemaComposer.Query.addFields({
   ...QuoteQueryFields,
   ...ShowQueryFields,
   ...CharacterQueryFields,
-  ...SearchQueryFields
+  ...SearchQueryFields,
+  ...HomeQueryFields
 })
 
 // Mutations

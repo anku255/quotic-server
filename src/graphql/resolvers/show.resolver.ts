@@ -1,18 +1,21 @@
 import { composeWithMongoose } from 'graphql-compose-mongoose';
 
 import Show from '../../models/show.model';
-import { CharacterTC } from './character.resolver';
+import Character from '../../models/character.model';
 
 const customizationOptions = {};
 const ShowTC = composeWithMongoose(Show, customizationOptions);
 
-ShowTC.addRelation('characters', {
-  resolver: () => CharacterTC.getResolver('findByIds'),
-  prepareArgs: {
-    _ids: (source: { characters: [string] }): [string] => source.characters
-  },
-  projection: { characters: true }
-})
+
+ShowTC.addFields({
+  characters: {
+      type: ['Character'],
+      description: 'Sub items with a custom type',
+      resolve: (source) => {
+         return Character.find({ shows: {$in: [source._id]} }); 
+      }
+  }
+});
 
 const ShowQueryFields = {
   showById: ShowTC.getResolver('findById'),

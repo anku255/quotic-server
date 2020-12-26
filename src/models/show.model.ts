@@ -34,13 +34,13 @@ const showSchema = new Schema(
     year: Number,
     seasons: Number,
     episodes: [episodeSchema],
-    characters: [{ type: Schema.Types.ObjectId, ref: 'Character' }],
     coverPicture: String,
     imdbLink: String,
     rating: Number,
   },
   { timestamps: true },
 );
+
 
 export default mongoose.model('Show', showSchema);
 

@@ -5,6 +5,8 @@ import { ShowQueryFields, ShowMutationFields } from '../resolvers/show.resolver'
 import { CharacterQueryFields, CharacterMutationFields } from '../resolvers/character.resolver';
 import { SearchQueryFields } from '../resolvers/search.resolver';
 import { HomeQueryFields } from '../resolvers/home.resolver';
+import { AdminQueryFields } from '../resolvers/admin.resolver';
+import { EnumTC } from '../resolvers/enum.resolver';
 
 // Queries
 schemaComposer.Query.addFields({
@@ -13,7 +15,8 @@ schemaComposer.Query.addFields({
   ...ShowQueryFields,
   ...CharacterQueryFields,
   ...SearchQueryFields,
-  ...HomeQueryFields
+  ...HomeQueryFields,
+  ...AdminQueryFields,
 })
 
 // Mutations
@@ -23,6 +26,9 @@ schemaComposer.Mutation.addFields({
   ...ShowMutationFields,
   ...CharacterMutationFields
 })
+
+schemaComposer.add(EnumTC.getType());
+
 
 const graphqlSchema = schemaComposer.buildSchema()
 

@@ -1,5 +1,5 @@
 import { schemaComposer } from 'graphql-compose';
-import { getShowDataFromIMDB } from '../../controllers/admin/character.controller';
+import { getShowDataFromIMDB, getCharactersFromIMDB } from '../../controllers/admin.controller';
 
 const AdminTC = schemaComposer.createObjectTC(`
   type Episode {
@@ -19,12 +19,23 @@ const AdminTC = schemaComposer.createObjectTC(`
     imdbLink: String!
     rating: Float!
   }
+
+  type IMDBCharacter {
+    characterName: String
+    realName: String
+    imdbLink: String
+    dob: String
+    coverPicture: String
+    bioMarkup: String
+  }
 `);
 
 AdminTC.addResolver(getShowDataFromIMDB);
+AdminTC.addResolver(getCharactersFromIMDB);
 
 const AdminQueryFields = {
   getShowDataFromIMDB: AdminTC.getResolver('getShowDataFromIMDB'),
+  getCharactersFromIMDB: AdminTC.getResolver('getCharactersFromIMDB'),
 }
 
 export { AdminTC, AdminQueryFields }

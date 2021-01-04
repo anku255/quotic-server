@@ -24,6 +24,7 @@ const CharacterQueryFields = {
 
 const CharacterMutationFields = {
   characterCreateOne: CharacterTC.getResolver('createOne'),
+  characterCreateMany: CharacterTC.getResolver('createMany'),
   characterUpdateById: CharacterTC.getResolver('updateById'),
   characterUpdateOne: CharacterTC.getResolver('updateOne'),
   characterRemoveById: CharacterTC.getResolver('removeById'),

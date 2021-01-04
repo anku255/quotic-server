@@ -1,9 +1,16 @@
 import rp from 'request-promise';
 import $ from 'cheerio';
-import { uploadImage } from '../../utils/uploadImage';
-import { accessDeepObject } from '../../utils/commonHelpers';
+import url from 'url';
+import { uploadImage } from '../utils/uploadImage';
+import { accessDeepObject } from '../utils/commonHelpers';
 
 const BASE_URL = `https://www.imdb.com`;
+
+const getFullImageUrl = (url: string): string => {
+  const fullImageUrl = url.split('._V1')[0];
+  const extension = url.split('.').pop();
+  return `${fullImageUrl}.${extension}`;
+};
 
 export const getShowDataFromIMDB = {
   name: 'getShowDataFromIMDB',
@@ -69,7 +76,7 @@ export const getShowDataFromIMDB = {
 
         const showDetails = {
           name,
-          genre,
+          genre: typeof genre === 'string' ? [genre] : genre,
           description,
           coverPicture,
           year,
@@ -89,5 +96,78 @@ export const getShowDataFromIMDB = {
       console.log('error', error);
       return null;
     }
+  },
+};
+
+export const getCharactersFromIMDB = {
+  name: 'getCharactersFromIMDB',
+  type: '[IMDBCharacter]',
+  args: {
+    IMDBShowCode: 'String!',
+    type: "ShowTypeEnum!",
+  },
+  resolve: async ({ args: { IMDBShowCode, type } }): Promise<unknown> => {
+    const castPageUrl = `${BASE_URL}/title/${IMDBShowCode}/fullcredits`;
+    const castPageHtml = await rp(castPageUrl);
+
+    const characterRows = $('.cast_list tr', castPageHtml)
+      .toArray()
+      .slice(1);
+
+    const characters = [];
+
+    const promises = characterRows.map(async el => {
+      const imgUrl = accessDeepObject('0.attribs.loadlate', $('img', el));
+
+      if (imgUrl) {
+        const aTags = $('td a', el).toArray();
+        const numberOfEpisodes = parseInt(accessDeepObject('3.attribs.data-n', aTags), 10);
+
+        if (type === 'MOVIE' || numberOfEpisodes > 5) {
+          let coverPicture = null;
+
+          const imagedata: any = await uploadImage({
+            fileUrl: getFullImageUrl(imgUrl),
+            entityType: 'CHARACTER',
+          });
+
+          coverPicture = imagedata.cloudinaryUrl;
+
+          const relativeImdbUrl = accessDeepObject('1.attribs.href', aTags);
+          const realName = accessDeepObject('1.children.0.data', aTags);
+          const characterName = accessDeepObject('2.children.0.data', aTags);
+
+          const imdbLink = `${BASE_URL}${url.parse(`${relativeImdbUrl}`).pathname}`;
+
+          const imdbBioUrl = `${imdbLink}bio`;
+
+          const bioPageHtml = await rp(imdbBioUrl);
+
+          const dobString = accessDeepObject('0.attribs.datetime', $('time', bioPageHtml));
+          let dob;
+          try {
+            dob = dobString ? new Date(dobString).toISOString() : undefined;
+          } catch {
+            // do nothing
+          }
+
+          const bioMarkup = $('#bio_content p', bioPageHtml).html();
+
+          const character = {
+            characterName: characterName.replace(/^\s+|\s+$/g, ''),
+            realName: realName.replace(/^\s+|\s+$/g, ''),
+            imdbLink,
+            dob,
+            coverPicture,
+            bioMarkup: bioMarkup.replace(/^\s+|\s+$/g, ''),
+          };
+          characters.push(character);
+        }
+      }
+    });
+
+    await Promise.all(promises);
+
+    return characters;
   },
 };

@@ -5,13 +5,16 @@ import { IncomingMessage, ServerResponse } from 'http'
 import graphqlSchema from './graphql/schema'
 import authMiddleware from './middlewares/authentication'
 import './config/database';
+import { redisConnection } from './utils/redis';
 
 const app = fastify();
+const redisClient = redisConnection();
 
 const gqlServer = new ApolloServer({
   schema: graphqlSchema,
   context: (ctx) => ({
-    user: ctx.req.user
+    user: ctx.req.user,
+    redisClient,
   }),
   playground: true,
   introspection: true,

@@ -1,5 +1,10 @@
 import { schemaComposer } from 'graphql-compose';
-import { getShowDataFromIMDB, getCharactersFromIMDB } from '../../controllers/admin.controller';
+import {
+  getShowDataFromIMDB,
+  getCharactersFromIMDB,
+  getEpisodesFromWikiQuotes,
+  getQuotesFromWikiQuotes,
+} from '../../controllers/admin.controller';
 
 const AdminTC = schemaComposer.createObjectTC(`
   type Episode {
@@ -28,14 +33,27 @@ const AdminTC = schemaComposer.createObjectTC(`
     coverPicture: String
     bioMarkup: String
   }
+
+  type WikiQuote {
+    raw: String!
+    markup: String!
+    characters: [String]
+    mainCharacter: String
+    season: Int
+    episode: Int
+  }
 `);
 
 AdminTC.addResolver(getShowDataFromIMDB);
 AdminTC.addResolver(getCharactersFromIMDB);
+AdminTC.addResolver(getEpisodesFromWikiQuotes);
+AdminTC.addResolver(getQuotesFromWikiQuotes);
 
 const AdminQueryFields = {
   getShowDataFromIMDB: AdminTC.getResolver('getShowDataFromIMDB'),
   getCharactersFromIMDB: AdminTC.getResolver('getCharactersFromIMDB'),
-}
+  getEpisodesFromWikiQuotes: AdminTC.getResolver('getEpisodesFromWikiQuotes'),
+  getQuotesFromWikiQuotes: AdminTC.getResolver('getQuotesFromWikiQuotes'),
+};
 
-export { AdminTC, AdminQueryFields }
+export { AdminTC, AdminQueryFields };

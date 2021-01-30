@@ -54,6 +54,7 @@
     "ioredis": "^4.19.4",
     "isomorphic-fetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.20",
     "mongoose": "^5.9.1",
     "ramda": "^0.27.0",
     "request": "^2.88.2",

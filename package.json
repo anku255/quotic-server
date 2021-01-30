@@ -31,7 +31,7 @@
     "watch:ts": "tsc -w -p tsconfig.release.json",
     "watch:node": "nodemon -r dotenv/config --delay 100ms -q build/src/app.ts",
     "start": "node -r dotenv/config build/src/app.js",
-    "start:qa": "concurrently -r \"npm run watch:ts\" \"npm run watch:node\"",
+    "start:qa": "npm run watch:node",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
@@ -56,6 +56,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.1",
     "ramda": "^0.27.0",
+    "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "showdown": "^1.9.1",
     "tslib": "~1.10.0"

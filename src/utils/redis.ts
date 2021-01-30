@@ -5,7 +5,13 @@ let client = null;
 export const redisConnection = () => {
   if (client) return client;
 
-  client = new Redis(process.env.REDIS_PORT, process.env.REDIS_HOST);
+  client = new Redis({
+    port: process.env.REDIS_PORT,
+    host: process.env.REDIS_HOST,
+    family: 4,
+    password: process.env.REDIS_PASSWORD,
+    db: 0,
+  });
 
   client.on('connect', () => console.log('Redis client connected'));
 

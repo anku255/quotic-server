@@ -288,9 +288,9 @@ async function getAllQuotesFromMovies({ html, skip, limit, showId }) {
     return {
       raw: quote,
       markup: converter.makeHtml(quote),
-      characters: [characterId],
+      characters: [{ label: characterName, value: characterId }],
       show: showId,
-      mainCharacter: characterId,
+      mainCharacter: { label: characterName, value: characterId },
     };
   });
 
@@ -309,14 +309,17 @@ async function getAllQuotesFromMovies({ html, skip, limit, showId }) {
 
   const promises = dlTags.map(async dl => {
     const { quoteMd, characters } = parseQuoteMarkup(dl);
-    let characterIds = characters.map(characterName => getCharacterId({ characterName }));
-    characterIds = uniq(characterIds.filter(Boolean));
+    let charactersWithIds = characters.map(characterName => ({
+      label: characterName,
+      value: getCharacterId({ characterName }),
+    }));
+    charactersWithIds = uniq(charactersWithIds.filter(Boolean));
     const quote = {
       raw: quoteMd,
       markup: converter.makeHtml(quoteMd),
-      characters: characterIds,
+      characters: charactersWithIds,
       show: showId,
-      mainCharacter: characterIds[0],
+      mainCharacter: charactersWithIds[0],
     };
 
     quotes.push(quote);

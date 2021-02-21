@@ -37,10 +37,15 @@ const AdminTC = schemaComposer.createObjectTC(`
   type WikiQuote {
     raw: String!
     markup: String!
-    characters: [String]
-    mainCharacter: String
+    characters: [CharacterValue]
+    mainCharacter: CharacterValue
     season: Int
     episode: Int
+  }
+
+  type CharacterValue {
+    label: String
+    value: String
   }
 `);
 

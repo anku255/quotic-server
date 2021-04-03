@@ -11,7 +11,7 @@ export const redisConnection = () => {
     family: 4,
     password: process.env.REDIS_PASSWORD,
     db: 0,
-  });
+  } as any);
 
   client.on('connect', () => console.log('Redis client connected'));
 

@@ -6,6 +6,7 @@
     "node": ">= 12.13"
   },
   "devDependencies": {
+    "@types/ioredis": "^4.22.2",
     "@types/jest": "~25.1.2",
     "@types/mongodb": "^3.3.16",
     "@types/mongoose": "^5.7.1",
